@@ -31,6 +31,7 @@ public class RoleModel {
         this.roleName = roleName;
     }
 
-    @ManyToMany(mappedBy="roles")
+    @OneToMany(targetEntity = UserModel.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "roles")
     private List<UserModel> users;
 }
