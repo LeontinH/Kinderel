@@ -23,11 +23,8 @@ public class UserModel {
     @Column(name = "password", nullable=false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(
-            name="usersTable_rolesTable",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ROLE_ID")})
+    @ManyToOne(targetEntity = RoleModel.class, fetch=FetchType.LAZY)
+    @JoinColumn(name = "rolesTable", referencedColumnName = "role_id")
     private List<RoleModel> roles = new ArrayList<>();
 
     public UserModel() {
