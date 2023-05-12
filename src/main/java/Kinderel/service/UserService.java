@@ -1,8 +1,8 @@
 package Kinderel.service;
 
-import Kinderel.model.DTOModel;
-import Kinderel.model.RoleModel;
-import Kinderel.model.UserModel;
+import Kinderel.model.DTO;
+import Kinderel.model.Role;
+import Kinderel.model.User;
 import Kinderel.repository.RoleRepository;
 import Kinderel.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,40 +23,40 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveUser(DTOModel dtoModel) {
-        UserModel user = new UserModel();
-        user.setUserName(dtoModel.getUserName());
-        user.setEmail(dtoModel.getEmail());
+    public void saveUser(DTO dto) {
+        User user = new User();
+        user.setUserName(dto.getUserName());
+        user.setEmail(dto.getEmail());
 
-        user.setPassword(passwordEncoder.encode(dtoModel.getPassword()));
-        RoleModel role = roleRepository.findByRoleName("ROLE_USER");
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        Role role = roleRepository.findByRoleName("USER");
         if(role == null){
             role = checkRoleExist();
         }
-        user.setRoles(List.of(role));
+        user.setRole(role);
         userRepository.save(user);
     }
 
-    public UserModel findByUserName(String userName) {
+    public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
 
-    public List<DTOModel> findAllUsers() {
-        List<UserModel> users = userRepository.findAll();
+    public List<DTO> findAllUsers() {
+        List<User> users = userRepository.findAll();
         return users.stream().map((user) -> convertEntityToDto(user))
                 .collect(Collectors.toList());
     }
 
-    private DTOModel convertEntityToDto(UserModel user){
-        DTOModel dtoModel = new DTOModel();
-        dtoModel.setUserName(user.getUserName());
-        dtoModel.setEmail(user.getEmail());
-        return dtoModel;
+    private DTO convertEntityToDto(User user){
+        DTO dto = new DTO();
+        dto.setUserName(user.getUserName());
+        dto.setEmail(user.getEmail());
+        return dto;
     }
 
-    private RoleModel checkRoleExist() {
-        RoleModel role = new RoleModel();
-        role.setRoleName("ROLE_USER");
+    private Role checkRoleExist() {
+        Role role = new Role();
+        role.setRoleName("USER");
         return roleRepository.save(role);
     }
 

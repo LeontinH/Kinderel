@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name="rolesTable")
-public class RoleModel {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rolesTable_generator")
     @SequenceGenerator(name = "roles_generator", allocationSize = 1)
@@ -15,11 +15,15 @@ public class RoleModel {
     @Column(name = "roleName",nullable=false, unique=true)
     private String roleName;
 
+    @OneToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "role")
+    private List<User> user;
+
     public Long getRole_id() {
         return role_id;
     }
 
-    public void setId(Long role_id) {
+    public void setRole_id(Long role_id) {
         this.role_id = role_id;
     }
 
@@ -31,6 +35,4 @@ public class RoleModel {
         this.roleName = roleName;
     }
 
-    @ManyToMany(mappedBy="roles")
-    private List<UserModel> users;
 }

@@ -3,7 +3,7 @@ package Kinderel.model;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class DTOModel {
+public class DTO {
     private Long id;
     @NotEmpty(message = "User Name should not be empty")
     private String userName;
@@ -12,14 +12,17 @@ public class DTOModel {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
-    public DTOModel(Long id, String userName, String email, String password) {
+    private Role role;
+
+    public DTO(Long id, String userName, String email, String password, Role role) {
         this.id = id;
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
-    public DTOModel() {
+    public DTO() {
     }
 
     public Long getId() {
@@ -52,5 +55,13 @@ public class DTOModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

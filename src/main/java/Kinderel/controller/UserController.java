@@ -1,7 +1,7 @@
 package Kinderel.controller;
 
-import Kinderel.model.DTOModel;
-import Kinderel.model.UserModel;
+import Kinderel.model.DTO;
+import Kinderel.model.User;
 import Kinderel.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,23 +34,23 @@ public class UserController {
 
     @GetMapping("register")
     public String showRegistrationForm(Model model){
-        DTOModel user = new DTOModel();
+        DTO user = new DTO();
         model.addAttribute("user", user);
         return "registerPage";
     }
 
     @GetMapping("/pageInConstruction")
     public String showPageInConstruction (Model model) {
-        DTOModel user = new DTOModel();
+        DTO user = new DTO();
         model.addAttribute("user", user);
         return "pageInConstruction";
     }
 
     @PostMapping("/register")
-    public String registration(@Valid @ModelAttribute("user") DTOModel user,
+    public String registration(@Valid @ModelAttribute("user") DTO user,
                                BindingResult result,
                                Model model){
-        UserModel existing = userService.findByUserName(user.getUserName());
+        User existing = userService.findByUserName(user.getUserName());
         if (existing != null) {
             result.rejectValue("userName", null);
             return "errorPage";
@@ -66,7 +66,7 @@ public class UserController {
     @RolesAllowed({"USER", "ADMIN"})
     @GetMapping("/users")
     public String listRegisteredUsers(Model model){
-        List<DTOModel> users = userService.findAllUsers();
+        List<DTO> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "usersListPage";
     }

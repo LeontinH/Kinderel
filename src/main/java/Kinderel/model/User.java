@@ -1,12 +1,10 @@
 package Kinderel.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name="usersTable")
-public class UserModel {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usersTable_generator")
@@ -23,21 +21,18 @@ public class UserModel {
     @Column(name = "password", nullable=false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(
-            name="usersTable_rolesTable",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ROLE_ID")})
-    private List<RoleModel> roles = new ArrayList<>();
+    @ManyToOne(targetEntity = Role.class, fetch=FetchType.LAZY)
+    @JoinColumn(name = "rolesTable", referencedColumnName = "role_id")
+    private Role role;
 
-    public UserModel() {
+    public User() {
     }
 
-    public UserModel(String userName, String email, String password, List<RoleModel> roles) {
+    public User(String userName, String email, String password, Role role) {
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     public Long getId() {
@@ -72,12 +67,12 @@ public class UserModel {
         this.password = password;
     }
 
-    public List<RoleModel> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<RoleModel> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
 
