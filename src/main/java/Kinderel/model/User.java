@@ -21,6 +21,9 @@ public class User {
     @Column(name = "password", nullable=false)
     private String password;
 
+    @Column(name = "profilePicture")
+    private byte[] profilePicture;
+
     @ManyToOne(targetEntity = Role.class, fetch=FetchType.LAZY)
     @JoinColumn(name = "rolesTable", referencedColumnName = "role_id")
     private Role role;
@@ -28,10 +31,11 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String email, String password, Role role) {
+    public User(String userName, String email, String password, byte[] profilePicture, Role role) {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.profilePicture = profilePicture;
         this.role = role;
     }
 
@@ -65,6 +69,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public Role getRole() {

@@ -27,7 +27,7 @@ public class UserService {
         User user = new User();
         user.setUserName(dto.getUserName());
         user.setEmail(dto.getEmail());
-
+        user.setProfilePicture(dto.getProfilePicture());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         Role role = roleRepository.findByRoleName("USER");
         if(role == null){
@@ -49,8 +49,10 @@ public class UserService {
 
     private DTO convertEntityToDto(User user){
         DTO dto = new DTO();
+        dto.setId(user.getId());
         dto.setUserName(user.getUserName());
         dto.setEmail(user.getEmail());
+        dto.setProfilePicture(user.getProfilePicture());
         return dto;
     }
 

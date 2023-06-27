@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
   <title>Register page</title>
   <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
-<div class="colors">
-  <form method="post" th:action="@{/register}" th:object="${registerRequest}" class="box">
-    <br>
+  <div class="colors">
+    <form method="post" th:action="@{/register}" th:object="${registerRequest}" enctype="multipart/form-data" class="box">
+      <br>
       <fieldset style="width:500px">
         <legend align="center" style="font-weight: bold">Registration</legend>
         <div class="input_box">
@@ -24,13 +25,23 @@
           <div class="form__shadow"></div>
         </div>
         <br>
+        <center>
+          <fieldset style="border-radius: 1px; width:200px;">
+            <legend style="font-size:15px" align="center">Please upload your profile picture</legend>
+            <div class="input_box">
+              <input class="form-control" name="file" type="file" idFile="formFile"><br />
+              <div class="form__shadow"></div>
+            </div>
+          </fieldset>
+        </center>
+        <br>
         <div class="input_box">
           <input type="submit" name="sign in" value="Register">
         </div>
         <br>
         <a href="/login">Navigate to login</a>
       </fieldset>
-  </form>
-</div>
+    </form>
+  </div>
 </body>
 </html>

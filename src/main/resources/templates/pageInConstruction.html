@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
-  <title>Articles</title>
+  <title>User Profiles</title>
+  <link rel="stylesheet" href="css/userProfile.css">
 </head>
 <body>
-<div class="container my-2">
-  <center>
-    <fieldset style="width:700px">
-      <h1 align="center">Page under construction</h1>
-      <div>
-        <a th:href="@{'/users'}"><button style="float: right">Go to users list</button></a>
-        <form th:action="@{/logout}" method="post">
-          <button type="submit" style="float: center">Sign Out</button>
-        </form>
-      </div>
-    </fieldset>
-  </center>
-  <br />
-    <h4 align="center">Page under construction</h4>
-  <table border="1" class="table table-striped table-responsive-md" align="center">
-
+  <table width="100%">
+    <tr><td align="right">
+      <fieldset style="border-radius: 5px;width:300px float: right" class="field_set_userProfileBox">
+        <legend align="center">User Profile</legend>
+        <div><img alt="Unable to load your profile picture" th:src="@{'/image?id=' + ${user.id}}" width="100px" height="50px"></div>
+        <a style="float: left">Username: <a>[[${#request.remoteUser}]]</a></a><br>
+        <a style="float: left">Role: <a sec:authentication="principal.authorities"></a></a><br>
+        <a style="float: left">Date: <a th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy')}"></a></a><br>
+        <a style="float: left">Session start time: <a th:text="${#dates.format(#dates.createNow(), 'HH:mm')}"></a></a>
+      </fieldset>
+    </td></tr>
+    <tr><td align="center">
+      <fieldset style="width:700px " class="field_set_pageName">
+        <h1 align="center">Page under construction</h1>
+        <div>
+          <a th:href="@{'/users'}"><button style="float: right">Go to users list</button></a>
+          <form th:action="@{/logout}" method="post">
+            <button type="submit" style="float: left">Sign Out</button>
+          </form>
+        </div>
+      </fieldset>
+    </td></tr>
   </table>
-</div>
 </body>
 </html>

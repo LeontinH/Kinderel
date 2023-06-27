@@ -3,14 +3,18 @@ package Kinderel.controller;
 import Kinderel.model.DTO;
 import Kinderel.model.User;
 import Kinderel.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -47,9 +51,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registration(@Valid @ModelAttribute("user") DTO user,
-                               BindingResult result,
-                               Model model){
+    private String registration(@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("user") DTO user,
+                                BindingResult result, Model model) throws IOException, ServletException {
         User existing = userService.findByUserName(user.getUserName());
         if (existing != null) {
             result.rejectValue("userName", null);
@@ -59,8 +62,20 @@ public class UserController {
             model.addAttribute("user", user);
             return "registerPage";
         }
+        user.setProfilePicture(file.getBytes());
         userService.saveUser(user);
+        model.addAttribute("user", user);
         return "loginPage";
+    }
+
+    @GetMapping("/image")
+    @ResponseBody
+    public void showImage(Authentication authentication , HttpServletResponse response)
+            throws ServletException, IOException {
+        User user = userService.findByUserName(authentication.getName());
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif, image/pdf");
+        response.getOutputStream().write(user.getProfilePicture());
+        response.getOutputStream().close();
     }
 
     @RolesAllowed({"USER", "ADMIN"})

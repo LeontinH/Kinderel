@@ -12,13 +12,16 @@ public class DTO {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
+    private byte[] profilePicture;
+
     private Role role;
 
-    public DTO(Long id, String userName, String email, String password, Role role) {
+    public DTO(Long id, String userName, String email, String password, byte[] profilePicture, Role role) {
         this.id = id;
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.profilePicture = profilePicture;
         this.role = role;
     }
 
@@ -56,6 +59,12 @@ public class DTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {this.profilePicture = profilePicture;}
 
     public Role getRole() {
         return role;
